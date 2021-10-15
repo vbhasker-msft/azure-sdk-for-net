@@ -112,7 +112,9 @@ namespace Azure.AI.TextAnalytics
                 analyzedSentiments.Add(new AnalyzeSentimentResult(docSentiment.Id, docSentiment.Statistics ?? default, new DocumentSentiment(docSentiment)));
             }
 
-            analyzedSentiments = SortHeterogeneousCollection(analyzedSentiments, idToIndexMap);
+            // In the case we don't know the input, we can't order the output.
+            if (idToIndexMap != null)
+                 analyzedSentiments = SortHeterogeneousCollection(analyzedSentiments, idToIndexMap);
 
             return new AnalyzeSentimentResultCollection(analyzedSentiments, results.Statistics, results.ModelVersion);
         }
